@@ -1,0 +1,54 @@
+---
+title: "Homework4"
+author: "Jae Hoon Cho"
+date: "October 10, 2018"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+# Q1. Write the R code using ggplot function to recreate the graph from the Lecture 8 notes
+```{r}
+library(tidyverse)
+norm1 <- data.frame(x1<- seq(-3,3, by=0.01), y1<-dnorm(x1))
+norm2 <- data.frame(x2<- seq(0.2,6.2, by=0.01), y2<-dnorm(mean=3.2,x2))
+norm1.1 <- data.frame(x3<- seq(qnorm(0.95),3,by=0.01), y3<-dnorm(x3))
+norm2.1 <- data.frame(x4<- seq(0.2,qnorm(0.95), by=0.01), y4<-dnorm(mean=3.2,x4))
+
+ggplot(data=norm1, aes(x=x1,y=y1)) + geom_line(color="blue",lwd=1.5) +
+   geom_line(data=norm2, aes(x=x2,y=y2), color="red", lwd=1.5) +
+   geom_vline(xintercept = qnorm(0.95), linetype = 'longdash', lwd = 0.7) +
+  annotate("text", x = 2, y = 0.02, label = expression(alpha),
+           color = 'black', size = 5) +
+  annotate("text", x = 1.2, y = 0.02, label = expression(beta),
+           color = 'black', size = 5) +
+  annotate("text", x = -2, y = 0.4, label = "Type I error", color="blue", size=5)+
+  annotate("text", x = -2, y = 0.37, label = "Type II error", color="red", size=5)+
+  geom_area(data=norm1.1, aes(x=x3, y=y3), fill="blue", alpha=0.5) +
+  geom_area(data=norm2.1, aes(x=x4, y=y4), fill="red", alpha=0.5) 
+
+```
+
+# Q2.Implement a function that will check if a given positive integer is a prime number. 
+
+```{r}
+prime_number <- function (x) {n <- 0
+  for (i in 2:x-1) {
+  if (x%%i==0){n <- n+1}
+  else{n <- n}}
+  ifelse(n>1,"not prime","prime")}
+
+prime_number(8)
+prime_number(19)
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
